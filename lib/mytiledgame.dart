@@ -19,6 +19,20 @@ class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
 
   late final TiledComponent mapComponent;
 
+
+  Vector2? tooltipPosition;
+  String? tooltipText;
+
+  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut'}) {
+    tooltipPosition = position;
+    tooltipText = text;
+    overlays.add('tooltip');
+  }
+
+  void hideTooltip() {
+    overlays.remove('tooltip');
+  }
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
@@ -98,5 +112,9 @@ class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
 
   MyWorld getMyWorld() {
     return this._myWorld;
+  }
+
+  void onActionButtonPressed() {
+    log('BUTTON PRESSED YEAH - direction = ${_myPlayer.direction.name} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()}');
   }
 }

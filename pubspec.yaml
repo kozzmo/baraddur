@@ -38,6 +38,7 @@ dependencies:
   flame_tiled: ^2.0.3
   tuple: ^2.0.2
   flame_lint: ^1.1.2
+  flutter_animate: ^4.5.2
 
 dev_dependencies:
   flutter_test:
