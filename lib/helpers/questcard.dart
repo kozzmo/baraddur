@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 
 class QuestCard extends StatefulWidget {
   final String text;
@@ -32,62 +31,63 @@ class _QuestCardState extends State<QuestCard>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FadeTransition(
-        opacity: _controller,
-        child: Stack(
-          children: [
-            Container(
-              margin: const EdgeInsets.all(32),
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/parchment_texture.jpg'),
-                  fit: BoxFit.fill,
-                ),
-                border: Border.all(color: Colors.brown, width: 3),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.brown.shade300,
-                    offset: const Offset(4, 4),
-                    blurRadius: 10,
-                  ),
-                ],
+    return FadeTransition(
+      opacity: _controller,
+      child: Stack(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(32),
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                image: AssetImage('assets/images/parchment_texture.jpg'),
+                fit: BoxFit.fill,
               ),
-              child: SingleChildScrollView(
-                child: Text(
-                  widget.text,
-                  style: const TextStyle(
-                    fontFamily: 'MedievalSharp',
-                    fontSize: 16,
-                    color: Colors.brown,
-                    height: 1.4,
-                  ),
+              border: Border.all(color: Colors.brown, width: 3),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.brown.shade300,
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
+            child: SingleChildScrollView(
+              child: Text(
+                textAlign: TextAlign.justify,
+                widget.text,
+                style: const TextStyle(
+                  fontFamily: 'MedievalSharp',
+                  fontSize: 16,
+                  // fontWeight: FontWeight.bold,
+                  color: Colors.brown,
+                  height: 1.4,
                 ),
               ),
             ),
-            Positioned(
-              right: 40,
-              top: 40,
-              child: GestureDetector(
-                onTap: widget.onClose,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.brown.shade200.withOpacity(0.8),
-                  ),
-                  padding: const EdgeInsets.all(8),
-                  child: const Icon(
-                    Icons.close,
-                    size: 24,
-                    color: Colors.white,
-                  ),
+          ),
+          Positioned(
+            right: 40,
+            top: 40,
+            child: GestureDetector(
+              onTap: widget.onClose,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.transparent,
+                  border: Border.all(color: Colors.brown, width: 2),
+                ),
+                padding: const EdgeInsets.all(4),
+                child: const Icon(
+                  Icons.close,
+                  size: 24,
+                  color: Colors.brown,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

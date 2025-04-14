@@ -1,5 +1,9 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
+import 'package:baraddur/components/menuareacomponent.dart';
+import 'package:baraddur/components/questareacomponent.dart';
+import 'package:baraddur/helpers/utils.dart';
 import 'package:baraddur/myworld.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
@@ -11,7 +15,8 @@ import 'package:flame/input.dart';
 import 'helpers/direction.dart';
 import 'components/myplayer.dart';
 
-class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
+class MyTiledGame extends FlameGame
+    with KeyboardEvents, HasCollisionDetection, TapDetector {
   late final MyPlayer _myPlayer;
   late final MyWorld _myWorld;
 
@@ -19,18 +24,22 @@ class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
 
   late final TiledComponent mapComponent;
 
-
   Vector2? tooltipPosition;
   String? tooltipText;
 
-  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut'}) {
+  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut', String overlayName = 'tooltip'}) {
     tooltipPosition = position;
     tooltipText = text;
-    overlays.add('tooltip');
+    overlays.add(overlayName);
   }
 
-  void hideTooltip() {
-    overlays.remove('tooltip');
+  void hideTooltip([String overlayName = 'tooltip']) {
+    overlays.remove(overlayName);
+  }
+
+  @override
+  void onTap() {
+    hideTooltip();
   }
 
   @override
@@ -40,13 +49,10 @@ class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
     _myWorld = MyWorld(_myPlayer);
     camera = CameraComponent(world: _myWorld);
 
-    await addAll([
-      _myWorld,
-      camera
-    ]);
+    await addAll([_myWorld, camera]);
 
     camera.viewfinder
-      ..zoom = 2.0
+      ..zoom = myZoom
       ..anchor = Anchor.center;
 
     camera.follow(_myPlayer);
@@ -91,17 +97,15 @@ class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
   }
 
   void _handleResize() {
-
     _setCameraBounds();
   }
 
   void _setCameraBounds() {
-    final halfViewportSize = camera.viewport.size / 2;
-    final worldSize = 40*16.0;
+    final worldSize = 40 * 16.0;
     camera.setBounds(
       Rectangle.fromCenter(
         center: Vector2.all(worldSize / 2),
-        size: Vector2.all(worldSize) - halfViewportSize,
+        size: Vector2.all(worldSize) - camera.viewport.size / myZoom,
       ),
     );
   }
@@ -111,10 +115,35 @@ class MyTiledGame extends FlameGame with KeyboardEvents, HasCollisionDetection {
   }
 
   MyWorld getMyWorld() {
-    return this._myWorld;
+    return _myWorld;
   }
 
-  void onActionButtonPressed() {
-    log('BUTTON PRESSED YEAH - direction = ${_myPlayer.direction.name} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()}');
+  String getRandomNoQuestMessage() {
+    return noQuestMessages[math.Random().nextInt(noQuestMessages.length)];
+  }
+
+  void onActionButtonPressed() async {
+    log(
+      'BUTTON PRESSED - direction = ${_myPlayer.getDirectionName()} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()} et pov = ${_myPlayer.getPov().x.toString()} / ${_myPlayer.getPov().y.toString()}',
+    );
+    if (_myPlayer.isColliding) {
+      log('My Player is colliding !');
+      if (_myPlayer.isCollidingWith<QuestAreaComponent>()) {
+        final collidingComp = _myPlayer.getCollidingWith<QuestAreaComponent>();
+        log('Colliding Quest : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
+        showTooltipAt(_myPlayer.getPov(), text: collidingComp.text);
+      }
+
+      if (_myPlayer.isCollidingWith<MenuAreaComponent>()) {
+        final collidingComp = _myPlayer.getCollidingWith<MenuAreaComponent>();
+        log('Colliding Menu : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
+        showTooltipAt(_myPlayer.getPov(), overlayName: 'menu');
+      }
+    } else {
+      showTooltipAt(
+        _myPlayer.getPov(),
+        text: getRandomNoQuestMessage(),
+      );
+    }
   }
 }

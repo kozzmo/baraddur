@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:baraddur/components/questcomponent.dart';
-import 'package:baraddur/components/tooltipcomponent.dart';
+import 'package:baraddur/components/menuareacomponent.dart';
+import 'package:baraddur/components/questareacomponent.dart';
+import 'package:baraddur/helpers/utils.dart';
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
@@ -12,6 +13,7 @@ class MyPlayer extends SpriteAnimationComponent
     with HasGameRef<MyTiledGame>, CollisionCallbacks {
   final double _playerSpeed = 100.0;
   final double _animationSpeed = 0.15;
+  final Set<PositionComponent> _activeCollisions = {};
 
   late final SpriteAnimation _runDownAnimation;
   late final SpriteAnimation _runLeftAnimation;
@@ -35,17 +37,25 @@ class MyPlayer extends SpriteAnimationComponent
   Future<void> onLoad() async {
     super.onLoad();
     await _loadAnimations().then((_) => {animation = _standingDownAnimation});
-    add(RectangleHitbox()..collisionType = CollisionType.active);
+    double width = 0.6, height = 0.3;
+
+    final physicalHitBox = RectangleHitbox.relative(
+        Vector2(width, height), // Largeur = 60%, Hauteur = 30% du sprite
+        parentSize: size,
+        position: Vector2((size.x - (size.x * width)) / 2, size.y - size.y*height), // Décalé vers le bas (X = centré, Y = 70%)
+        collisionType: CollisionType.active,
+      );
+    add(physicalHitBox);
+
     _previousDirection = Direction.down;
-    //TODO DEBUG MODE PLAYER
-    debugMode = true;
+    debugMode = myDebug;
   }
 
   @override
-  void update(double delta) {
-    super.update(delta);
+  void update(double dt) {
+    super.update(dt);
     _previousPosition = position.clone();
-    movePlayer(delta);
+    movePlayer(dt);
     keepPlayerInBounds();
   }
 
@@ -72,9 +82,11 @@ class MyPlayer extends SpriteAnimationComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is! QuestComponent) {
+    if (other is! QuestAreaComponent && other is! MenuAreaComponent) {
       position.setFrom(_previousPosition);
       super.onCollision(intersectionPoints, other);
+    }
+    if (other is QuestAreaComponent) {
     }
   }
 
@@ -83,18 +95,38 @@ class MyPlayer extends SpriteAnimationComponent
     Set<Vector2> intersectionPoints,
     PositionComponent other,
   ) {
+    _activeCollisions.add(other);
     super.onCollisionStart(intersectionPoints, other);
-    if (other is QuestComponent) {
+    if (other is QuestAreaComponent) {
+      log('QUEST detected at ${other.position.toString()}');
+      other.showTooltip();
+    }
+    if (other is MenuAreaComponent) {
+      log('MENU detected at ${other.position.toString()}');
       other.showTooltip();
     }
   }
 
   @override
   void onCollisionEnd(PositionComponent other) {
+    _activeCollisions.remove(other);
     super.onCollisionEnd(other);
-    if (other is QuestComponent) {
+    if (other is QuestAreaComponent) {
+      log('onCollisionEnd !! bye bye QuestComponent');
       other.hideTooltip();
     }
+    if (other is MenuAreaComponent) {
+      log('onCollisionEnd !! bye bye MenuComponent');
+      other.hideTooltip();
+    }
+  }
+
+  bool isCollidingWith<T extends PositionComponent>() {
+    return _activeCollisions.any((c) => c is T);
+  }
+
+  T? getCollidingWith<T extends PositionComponent>() {
+    return _activeCollisions.firstWhere((c) => c is T) as T?;
   }
 
   void movePlayer(double delta) {
@@ -149,6 +181,10 @@ class MyPlayer extends SpriteAnimationComponent
 
   bool isDirectionRight() {
     return _previousDirection == Direction.right;
+  }
+
+  String getDirectionName() {
+    return _previousDirection.name;
   }
 
   Future<void> _loadAnimations() async {
@@ -220,5 +256,20 @@ class MyPlayer extends SpriteAnimationComponent
 
   void moveRight(double delta) {
     position.add(Vector2(delta * _playerSpeed, 0));
+  }
+
+  Vector2 getPov() {
+    Vector2 playerPov = position.clone();
+    isDirectionDown()
+        ? playerPov.y += 10
+        : isDirectionRight()
+        ? playerPov.x += 10
+        : isDirectionUp()
+        ? playerPov.y -= 10
+        : isDirectionLeft()
+        ? playerPov.x -= 10
+        : {};
+
+    return playerPov;
   }
 }
