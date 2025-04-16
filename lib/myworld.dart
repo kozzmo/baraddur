@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:baraddur/components/bonfire.dart';
 import 'package:baraddur/components/menuareacomponent.dart';
 import 'package:baraddur/components/myplayer.dart';
 import 'package:baraddur/components/questareacomponent.dart';
@@ -14,6 +15,8 @@ class MyWorld extends World {
   late final List<QuestAreaComponent> myQuests = [];
   // late final List<List<int>> treeLayer; // 2D array of tile (trees)
 
+  late final Bonfire myBonfire;
+
   MyWorld(this.myPlayer);
 
   @override
@@ -27,6 +30,10 @@ class MyWorld extends World {
     add(mapComponent);
 
     add(myPlayer);
+
+    //TODO BONFIRE
+    myBonfire = Bonfire();
+    // add(myBonfire);
 
     final collisionLayer = mapComponent.tileMap.getLayer<ObjectGroup>(
         'collisions');

@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'dart:developer' as developer;
 
-const bool myDebug = true;
+const bool myDebug = false;
 const double myZoom = 2.5;
 
 T estimateCallTime<T>(T Function() action) {
