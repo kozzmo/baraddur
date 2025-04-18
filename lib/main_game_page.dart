@@ -19,8 +19,7 @@ class MainGameState extends State<MainGamePage> {
   MyTiledGame game = MyTiledGame();
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
+  Widget build(BuildContext context) => Stack(
       children: [
         GameWidget(
           game: game,
@@ -76,7 +75,6 @@ class MainGameState extends State<MainGamePage> {
         ),
       ],
     );
-  }
 }
 
 //TODO MAIN GAME PAGE GAMEBOY :

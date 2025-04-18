@@ -22,6 +22,15 @@ class _ImageSwiperState extends State<ImageSwiper> {
   void initState() {
     super.initState();
     _controller = PageController(initialPage: _currentIndex);
+
+    // On attend que tout soit prêt et stable
+    //TODO SAUF QUE ça ne fonctionne pas ? Sur smartphone : https://kozzmo.github.io/baraddur/
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // ... pour précharger toutes les images
+      for (final path in widget.imagePaths) {
+        precacheImage(AssetImage(path), context);
+      }
+    });
   }
 
   void _handlePageChanged(int index) {
