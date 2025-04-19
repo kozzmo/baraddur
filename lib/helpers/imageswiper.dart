@@ -1,13 +1,15 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class ImageSwiper extends StatefulWidget {
+
+  final double _height = 600.0;
   final List<String> imagePaths;
-  final double height;
 
   const ImageSwiper({
     super.key,
     required this.imagePaths,
-    this.height = 600,
   });
 
   @override
@@ -23,7 +25,7 @@ class _ImageSwiperState extends State<ImageSwiper> {
     super.initState();
     _controller = PageController(initialPage: _currentIndex);
 
-    // On attend que tout soit prêt et stable
+    // On attend que tout soit prêt et stable avant de charger precacheImage
     //TODO SAUF QUE ça ne fonctionne pas ? Sur smartphone : https://kozzmo.github.io/baraddur/
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // ... pour précharger toutes les images
@@ -54,21 +56,38 @@ class _ImageSwiperState extends State<ImageSwiper> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragEnd: _onPageEndSwipe,
-      child: SizedBox(
-        height: widget.height,
-        child: PageView.builder(
-          controller: _controller,
-          onPageChanged: _handlePageChanged,
-          itemCount: widget.imagePaths.length,
-          itemBuilder: (context, index) {
-            return Image.asset(
-              widget.imagePaths[index],
-              fit: BoxFit.contain,
-            );
-          },
-        ),
+    return SizedBox(
+      height: widget._height,
+      child: Stack(
+        children: [
+          // Background blur layer
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0), // transparent touch passthrough
+            ),
+          ),
+
+          // Main content
+          GestureDetector(
+            onHorizontalDragEnd: _onPageEndSwipe,
+            child: PageView.builder(
+              controller: _controller,
+              onPageChanged: _handlePageChanged,
+              itemCount: widget.imagePaths.length,
+              itemBuilder: (context, index) {
+                return InteractiveViewer(
+                  panEnabled: true,
+                  minScale: 1.0,
+                  maxScale: 4.0,
+                  child: Image.asset(
+                    widget.imagePaths[index],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

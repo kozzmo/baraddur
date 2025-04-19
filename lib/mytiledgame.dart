@@ -34,7 +34,8 @@ class MyTiledGame extends FlameGame
   }
 
   void hideTooltip([String overlayName = 'tooltip']) {
-    overlays.remove(overlayName);
+    // overlays.remove(overlayName);
+    overlays.clear();
   }
 
   @override

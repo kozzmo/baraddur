@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:baraddur/helpers/actionbutton.dart';
 import 'package:baraddur/helpers/imageswiper.dart';
-import 'package:baraddur/helpers/tooltipoverlay.dart';
+import 'package:baraddur/helpers/mytextoverlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'helpers/joypad.dart';
@@ -27,7 +27,7 @@ class MainGameState extends State<MainGamePage> {
             'tooltip': (BuildContext context, MyTiledGame game) {
               log('TOOLTIP rendered at : ${game.tooltipPosition.toString()}');
               //TODO position marche pas
-              return TooltipOverlay(
+              return MyTextOverlay(
                 position: game.tooltipPosition ?? Vector2(0, 0),
                 text: game.tooltipText ?? 'EMPTY',
                 onClose: game.hideTooltip,
@@ -35,17 +35,12 @@ class MainGameState extends State<MainGamePage> {
             },
             'menu': (BuildContext context, MyTiledGame game) {
               log('IN MENU !!');
-              return Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: ImageSwiper(imagePaths: [
-                    'assets/images/Menu/Boissons/bieresBouteilles.png',
-                    'assets/images/Menu/Boissons/bieresFut.png',
-                    'assets/images/Menu/Boissons/potions.png',
-                    'assets/images/Menu/Boissons/softs.png',
-                  ]),
-                ),
-              );
+              return ImageSwiper(imagePaths: [
+                'assets/images/Menu/Boissons/bieresBouteilles.png',
+                'assets/images/Menu/Boissons/bieresFut.png',
+                'assets/images/Menu/Boissons/potions.png',
+                'assets/images/Menu/Boissons/softs.png',
+              ]);
             }
           },
         ),
