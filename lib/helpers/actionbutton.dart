@@ -28,6 +28,7 @@ class _ActionButtonState extends State<ActionButton> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             elevation: 5,
+            backgroundColor: Colors.blue.withAlpha(100),
             shadowColor: Colors.black,
             animationDuration: Duration(seconds: 2),
             shape: CircleBorder(),
@@ -35,12 +36,9 @@ class _ActionButtonState extends State<ActionButton> {
           ),
           onPressed: widget.onPressed,
           child: ClipOval(
-            child: Image.asset(
-              width: 80,
-              height: 80,
-              'assets/images/logoBaraddur.png',
-              fit: BoxFit.cover,
-            ),
+            child: Icon(Icons.question_mark,
+              color: Colors.purple,
+              size: 80),
           ),
         ),
       ),
