@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:baraddur/components/menuareacomponent.dart';
 import 'package:baraddur/components/questareacomponent.dart';
 import 'package:baraddur/helpers/utils.dart';
@@ -49,6 +48,14 @@ class MyPlayer extends SpriteAnimationComponent
 
     _previousDirection = Direction.down;
     debugMode = myDebug;
+  }
+
+  void setDefaultSpawn() {
+    this.position = Vector2(198, 228);
+  }
+
+  void setSpawn(i, j) {
+    this.position = Vector2(i, j);
   }
 
   @override
