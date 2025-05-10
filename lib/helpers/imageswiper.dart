@@ -67,7 +67,7 @@ class _ImageSwiperState extends State<ImageSwiper> {
               color: Colors.black.withValues(alpha: 0), // transparent touch passthrough
             ),
           ),
-
+          Align(alignment: Alignment.bottomCenter, child: Container(child: Icon(Icons.more_horiz_rounded,size: 40))),
           // Main content
           GestureDetector(
             onHorizontalDragEnd: _onPageEndSwipe,
