@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:baraddur/components/beericoncomponent.dart';
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flutter/cupertino.dart';
 
 class MenuAreaComponent extends PositionComponent with TapCallbacks, HasGameReference<MyTiledGame>{
 

@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
-import 'package:flutter/cupertino.dart';
 
 class InterrogationDotComponent extends SpriteComponent with TapCallbacks, HasGameReference<MyTiledGame> {
 

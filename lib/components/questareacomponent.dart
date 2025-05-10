@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:baraddur/components/interrogationdotcomponent.dart';
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
