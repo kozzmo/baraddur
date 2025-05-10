@@ -36,9 +36,9 @@ class _ActionButtonState extends State<ActionButton> {
           ),
           onPressed: widget.onPressed,
           child: ClipOval(
-            child: Icon(Icons.question_mark,
-              color: Colors.purple,
-              size: 80),
+            child: Icon(Icons.menu,
+              color: Colors.black,
+              size: 40),
           ),
         ),
       ),

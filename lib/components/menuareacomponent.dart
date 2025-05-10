@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:baraddur/components/beericoncomponent.dart';
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
+import 'package:flutter/cupertino.dart';
 
-class MenuAreaComponent extends PositionComponent with HasGameReference<MyTiledGame>{
+class MenuAreaComponent extends PositionComponent with TapCallbacks, HasGameReference<MyTiledGame>{
 
   MenuAreaComponent({super.size, super.position, super.anchor});
 
@@ -16,6 +19,11 @@ class MenuAreaComponent extends PositionComponent with HasGameReference<MyTiledG
   FutureOr<void> onLoad() async {
     _hitbox = RectangleHitbox()..collisionType = CollisionType.passive;
     add(_hitbox);
+  }
+
+  @override
+  void onTapCancel(TapCancelEvent event) {
+    game.onActionButtonPressed();
   }
 
   void showTooltip() {
