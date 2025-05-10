@@ -140,6 +140,7 @@ class MyTiledGame extends FlameGame
         showTooltipAt(_myPlayer.getPov(), overlayName: 'menu');
       }
     } else {
+      hideTooltip();
       showTooltipAt(
         _myPlayer.getPov(),
         text: getRandomNoQuestMessage(),
