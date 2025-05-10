@@ -60,7 +60,7 @@ class MainGameState extends State<MainGamePage> {
                   padding: const EdgeInsets.all(30.0),
                   child: ActionButton(
                     onPressed: () {
-                      game.onActionButtonPressed(); // appelle une méthode dans ton jeu
+                      game.onActionButtonPressed();
                     },
                   ),
                 ),
