@@ -26,8 +26,10 @@ class MyTiledGame extends FlameGame
 
   Vector2? tooltipPosition;
   String? tooltipText;
+  Alignment? align;
 
-  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut', String overlayName = 'tooltip'}) {
+  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut', String overlayName = 'tooltip', Alignment alignment = Alignment.topCenter}) {
+    align = alignment;
     tooltipPosition = position;
     tooltipText = text;
     overlays.add(overlayName);
@@ -55,6 +57,7 @@ class MyTiledGame extends FlameGame
     camera.follow(_myPlayer);
     _setCameraBounds();
     _myPlayer.setDefaultSpawn();
+    showTooltipAt(Vector2(0, 0),text: 'Bienvenue Padawan', alignment: Alignment.center);
   }
 
   @override

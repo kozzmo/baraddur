@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class ParchmentCard extends StatefulWidget {
   final VoidCallback onClose;
   final Widget contentWidget;
-  const ParchmentCard({super.key, required this.contentWidget, required this.onClose});
+  final Alignment alignment;
+  const ParchmentCard({super.key, required this.contentWidget, required this.onClose, required this.alignment});
 
   @override
   State<ParchmentCard> createState() => _ParchmentCardState();
@@ -34,7 +35,7 @@ class _ParchmentCardState extends State<ParchmentCard> with SingleTickerProvider
     return FadeTransition(
       opacity: _controller,
       child: Align(
-        alignment: Alignment.topCenter,
+        alignment: widget.alignment,
         child: Stack(
           children: [
             Container(

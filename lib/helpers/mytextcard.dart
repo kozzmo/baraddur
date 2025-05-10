@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class MyTextCard extends StatefulWidget {
   final String text;
   final VoidCallback onClose;
+  final Alignment alignment;
 
-  const MyTextCard({super.key, required this.text, required this.onClose});
+  const MyTextCard({super.key, required this.text, required this.onClose, required this.alignment});
 
   @override
   State<MyTextCard> createState() => _MyTextCardState();
@@ -28,7 +29,7 @@ class _MyTextCardState extends State<MyTextCard>
           height: 1.4,
         ),
       ),
-      onClose: widget.onClose,
+      onClose: widget.onClose, alignment: widget.alignment,
     );
   }
 }

@@ -28,6 +28,7 @@ class MainGameState extends State<MainGamePage> {
               log('TOOLTIP rendered at : ${game.tooltipPosition.toString()}');
               //TODO position marche pas
               return MyTextOverlay(
+                alignment: game.align ?? Alignment.topCenter,
                 position: game.tooltipPosition ?? Vector2(0, 0),
                 text: game.tooltipText ?? 'EMPTY',
                 onClose: game.hideTooltip,
