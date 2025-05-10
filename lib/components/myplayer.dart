@@ -23,12 +23,10 @@ class MyPlayer extends SpriteAnimationComponent
   late final SpriteAnimation _standingDownAnimation;
   late final SpriteAnimation _standingRightAnimation;
   late final SpriteAnimation _standingLeftAnimation;
-
   late Vector2 _previousPosition;
-
   late Direction _previousDirection;
-
   Direction direction = Direction.none;
+  bool isMale = true;
 
   MyPlayer({super.position})
     : super(size: Vector2(42.0 / 2, 55.0 / 2), anchor: Anchor.center);
@@ -41,7 +39,7 @@ class MyPlayer extends SpriteAnimationComponent
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    await _loadAnimations().then((_) => {animation = _standingDownAnimation});
+    isMale ? await _loadAnimations().then((_) => {animation = _standingDownAnimation}) : ();
     double width = 0.6, height = 0.3;
 
     final physicalHitBox = RectangleHitbox.relative(
@@ -201,6 +199,7 @@ class MyPlayer extends SpriteAnimationComponent
   }
 
   Future<void> _loadAnimations() async {
+    log('loading male skin...');
     final spriteSheet = SpriteSheet(
       image: await game.images.load('sp_player.png'),
       srcSize: Vector2(84.0, 110.0),
