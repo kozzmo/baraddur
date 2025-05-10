@@ -28,7 +28,6 @@ class MyWorld extends World {
 
     mapComponent = await TiledComponent.load('map.tmx', Vector2(16, 16));
     add(mapComponent);
-
     add(myPlayer);
 
     //TODO BONFIRE
