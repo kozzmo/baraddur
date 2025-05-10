@@ -4,7 +4,7 @@ import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
-class Bonfire extends SpriteAnimationComponent with HasGameRef<MyTiledGame> {
+class Bonfire extends SpriteAnimationComponent with HasGameReference<MyTiledGame> {
   final double _animationSpeed = 0.15;
 
   Bonfire({super.key});
@@ -22,7 +22,7 @@ class Bonfire extends SpriteAnimationComponent with HasGameRef<MyTiledGame> {
 
   Future<void> _loadAnimations() async {
     final spriteSheet = SpriteSheet(
-      image: await gameRef.images.load('bonfire.png'),
+      image: await game.images.load('bonfire.png'),
       srcSize: Vector2(64.0, 64.0),
     );
     fire_1 = spriteSheet.createAnimation(row: 3, stepTime: _animationSpeed, to: 3);

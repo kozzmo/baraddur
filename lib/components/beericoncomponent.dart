@@ -4,7 +4,7 @@ import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
-class BeerIconComponent extends SpriteComponent with HasGameRef<MyTiledGame> {
+class BeerIconComponent extends SpriteComponent with HasGameReference<MyTiledGame> {
 
   BeerIconComponent({super.size, super.position, super.anchor});
 

@@ -5,7 +5,7 @@ import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class QuestAreaComponent extends PositionComponent with CollisionCallbacks, HasGameRef<MyTiledGame> {
+class QuestAreaComponent extends PositionComponent with CollisionCallbacks, HasGameReference<MyTiledGame> {
 
   final String text;
 
@@ -29,14 +29,13 @@ class QuestAreaComponent extends PositionComponent with CollisionCallbacks, HasG
 
   void showTooltip() {
     _myInterrogationDot = InterrogationDotComponent(position: Vector2(position.x + (size.x - 40 / 3) / 2, position.y - 66 / 3), size: Vector2(40 / 3, 66 / 3));
-
     parent?.add(
       _myInterrogationDot,
     );
   }
 
   void hideTooltip() {
-    gameRef.hideTooltip();
+    game.hideTooltip();
     parent?.remove(_myInterrogationDot);
   }
 }

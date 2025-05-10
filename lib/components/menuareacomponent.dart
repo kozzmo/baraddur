@@ -5,7 +5,7 @@ import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
-class MenuAreaComponent extends PositionComponent with HasGameRef<MyTiledGame>{
+class MenuAreaComponent extends PositionComponent with HasGameReference<MyTiledGame>{
 
   MenuAreaComponent({super.size, super.position, super.anchor});
 
@@ -26,7 +26,7 @@ class MenuAreaComponent extends PositionComponent with HasGameRef<MyTiledGame>{
   }
 
   void hideTooltip() {
-    gameRef.hideTooltip('menu');
+    game.hideTooltip('menu');
     parent?.remove(_myBeerIcon);
   }
 }

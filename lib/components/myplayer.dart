@@ -9,7 +9,7 @@ import '../helpers/direction.dart';
 import 'package:flame/sprite.dart';
 
 class MyPlayer extends SpriteAnimationComponent
-    with HasGameRef<MyTiledGame>, CollisionCallbacks {
+    with HasGameReference<MyTiledGame>, CollisionCallbacks {
   final double _playerSpeed = 100.0;
   final double _animationSpeed = 0.15;
   final Set<PositionComponent> _activeCollisions = {};
@@ -69,10 +69,10 @@ class MyPlayer extends SpriteAnimationComponent
   void keepPlayerInBounds() {
     // Récupérer les dimensions de la carte en pixels
     final mapWidth =
-        gameRef.getMyWorld().mapComponent.tileMap.map.width *
+        game.getMyWorld().mapComponent.tileMap.map.width *
         16; // Largeur de la carte
     final mapHeight =
-        gameRef.getMyWorld().mapComponent.tileMap.map.height *
+        game.getMyWorld().mapComponent.tileMap.map.height *
         16; // Hauteur de la carte
 
     // Récupérer la taille du joueur
@@ -196,7 +196,7 @@ class MyPlayer extends SpriteAnimationComponent
 
   Future<void> _loadAnimations() async {
     final spriteSheet = SpriteSheet(
-      image: await gameRef.images.load('sp_player.png'),
+      image: await game.images.load('sp_player.png'),
       srcSize: Vector2(84.0, 110.0),
     );
 

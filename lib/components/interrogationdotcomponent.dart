@@ -4,7 +4,7 @@ import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 
-class InterrogationDotComponent extends SpriteComponent with HasGameRef<MyTiledGame> {
+class InterrogationDotComponent extends SpriteComponent with HasGameReference<MyTiledGame> {
 
   InterrogationDotComponent({super.position, super.size, super.anchor});
 

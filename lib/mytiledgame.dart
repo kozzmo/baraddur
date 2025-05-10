@@ -81,7 +81,7 @@ class MyTiledGame extends FlameGame
 
     if (isKeyDown && keyDirection != null) {
       _myPlayer.direction = keyDirection;
-      _myPlayer.gameRef.onJoyPadDirectionChanged(keyDirection);
+      _myPlayer.game.onJoyPadDirectionChanged(keyDirection);
     } else if (isKeyUp) {
       _myPlayer.direction = Direction.none;
     }
