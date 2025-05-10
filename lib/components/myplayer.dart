@@ -5,11 +5,12 @@ import 'package:baraddur/helpers/utils.dart';
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import '../helpers/direction.dart';
 import 'package:flame/sprite.dart';
 
 class MyPlayer extends SpriteAnimationComponent
-    with HasGameReference<MyTiledGame>, CollisionCallbacks {
+    with TapCallbacks, HasGameReference<MyTiledGame>, CollisionCallbacks {
   final double _playerSpeed = 100.0;
   final double _animationSpeed = 0.15;
   final Set<PositionComponent> _activeCollisions = {};
@@ -31,6 +32,11 @@ class MyPlayer extends SpriteAnimationComponent
 
   MyPlayer({super.position})
     : super(size: Vector2(42.0 / 2, 55.0 / 2), anchor: Anchor.center);
+
+  @override
+  void onTapCancel(TapCancelEvent event) {
+    game.onActionButtonPressed();
+  }
 
   @override
   Future<void> onLoad() async {
