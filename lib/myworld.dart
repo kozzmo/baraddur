@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:baraddur/components/bonfire.dart';
 import 'package:baraddur/components/menuareacomponent.dart';
 import 'package:baraddur/components/myplayer.dart';

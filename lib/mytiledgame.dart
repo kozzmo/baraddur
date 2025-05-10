@@ -122,6 +122,10 @@ class MyTiledGame extends FlameGame
     return noQuestMessages[math.Random().nextInt(noQuestMessages.length)];
   }
 
+  void MenuBtnPressed() {
+    showTooltipAt(Vector2(0,0),overlayName: 'game_menu');
+  }
+
   void onActionButtonPressed() {
     log(
       'BUTTON PRESSED - direction = ${_myPlayer.getDirectionName()} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()} et pov = ${_myPlayer.getPov().x.toString()} / ${_myPlayer.getPov().y.toString()}',

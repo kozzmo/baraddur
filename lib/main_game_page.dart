@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:baraddur/helpers/actionbutton.dart';
 import 'package:baraddur/helpers/imageswiper.dart';
+import 'package:baraddur/helpers/jae/BaraddurOverlays.dart';
 import 'package:baraddur/helpers/mytextoverlay.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
@@ -23,27 +24,19 @@ class MainGameState extends State<MainGamePage> {
       children: [
         GameWidget(
           game: game,
-          overlayBuilderMap: {
-            'tooltip': (BuildContext context, MyTiledGame game) {
-              log('TOOLTIP rendered at : ${game.tooltipPosition.toString()}');
-              //TODO position marche pas
-              return MyTextOverlay(
-                alignment: game.align ?? Alignment.topCenter,
-                position: game.tooltipPosition ?? Vector2(0, 0),
-                text: game.tooltipText ?? 'EMPTY',
-                onClose: game.hideTooltip,
-              );
-            },
-            'menu': (BuildContext context, MyTiledGame game) {
-              log('IN MENU !!');
-              return ImageSwiper(imagePaths: [
-                'assets/images/Menu/Boissons/bieresBouteilles.png',
-                'assets/images/Menu/Boissons/bieresFut.png',
-                'assets/images/Menu/Boissons/potions.png',
-                'assets/images/Menu/Boissons/softs.png',
-              ]);
-            }
-          },
+          overlayBuilderMap: BaraddurOverlays().overlays,
+        ),
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: ActionButton(
+                onPressed: () {
+                  game.MenuBtnPressed();
+                },
+              ),
+            ),
+          ],
         ),
         Column(
           children: [
@@ -55,15 +48,6 @@ class MainGameState extends State<MainGamePage> {
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: Joypad(onDirectionChanged: game.onJoyPadDirectionChanged),
-                ),
-                const Spacer(),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: ActionButton(
-                    onPressed: () {
-                      game.onActionButtonPressed();
-                    },
-                  ),
                 ),
               ],
             ),
