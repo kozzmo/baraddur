@@ -1,14 +1,14 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'main_game_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Flame.device.fullScreen();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-
   runApp(const App());
 }
 
