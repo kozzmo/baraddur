@@ -11,13 +11,7 @@ class MyTextOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Transform.translate(
-    //   offset: Offset(position.x, position.y),
-    //   child: QuestCard(text: text),
-    // );
-
-    // TODO position marche pas, obligé de Center
-    return Center(
+    return Container(
       child: MyTextCard(
         text: text,
         onClose: onClose,
