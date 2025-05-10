@@ -35,6 +35,7 @@ class BaraddurOverlays {
           'Should have a menu here -> be able to check every useful actions? '
               '\n- menu (IRL)'
               '\n- opening hours'
+              '\n- Book a table'
               '\n- change sp_player to sp_player_female?'
               '\n- ...',
         ),
