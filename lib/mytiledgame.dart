@@ -1,11 +1,11 @@
 import 'dart:developer';
 import 'dart:math' as math;
-
 import 'package:baraddur/components/menuareacomponent.dart';
 import 'package:baraddur/components/questareacomponent.dart';
 import 'package:baraddur/helpers/utils.dart';
 import 'package:baraddur/myworld.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +20,7 @@ class MyTiledGame extends FlameGame
   late final MyPlayer _myPlayer;
   late final MyWorld _myWorld;
 
-  MyTiledGame() : _myPlayer = MyPlayer(position: Vector2(40, 40));
+  MyTiledGame() : _myPlayer = MyPlayer();
 
   late final TiledComponent mapComponent;
 
@@ -46,19 +46,15 @@ class MyTiledGame extends FlameGame
   @override
   Future<void> onLoad() async {
     super.onLoad();
-
     _myWorld = MyWorld(_myPlayer);
     camera = CameraComponent(world: _myWorld);
-
     await addAll([_myWorld, camera]);
-
     camera.viewfinder
       ..zoom = myZoom
       ..anchor = Anchor.center;
-
     camera.follow(_myPlayer);
-
     _setCameraBounds();
+    _myPlayer.setDefaultSpawn();
   }
 
   @override
@@ -123,7 +119,7 @@ class MyTiledGame extends FlameGame
     return noQuestMessages[math.Random().nextInt(noQuestMessages.length)];
   }
 
-  void onActionButtonPressed() async {
+  void onActionButtonPressed() {
     log(
       'BUTTON PRESSED - direction = ${_myPlayer.getDirectionName()} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()} et pov = ${_myPlayer.getPov().x.toString()} / ${_myPlayer.getPov().y.toString()}',
     );
@@ -147,4 +143,6 @@ class MyTiledGame extends FlameGame
       );
     }
   }
+
+
 }
