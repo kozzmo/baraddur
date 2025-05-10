@@ -20,7 +20,6 @@ class MenuAreaComponent extends PositionComponent with HasGameRef<MyTiledGame>{
 
   void showTooltip() {
     _myBeerIcon = BeerIconComponent(position: Vector2(position.x + (size.x - 45 / 2) / 2, position.y - 45 / 2), size: Vector2(45 / 2, 45 / 2));
-
     parent?.add(
       _myBeerIcon,
     );
