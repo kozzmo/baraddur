@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:baraddur/mytiledgame.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/events.dart';
 
-class InterrogationDotComponent extends SpriteComponent with HasGameRef<MyTiledGame> {
+class InterrogationDotComponent extends SpriteComponent with TapCallbacks, HasGameReference<MyTiledGame> {
 
   InterrogationDotComponent({super.position, super.size, super.anchor});
 
@@ -15,5 +15,10 @@ class InterrogationDotComponent extends SpriteComponent with HasGameRef<MyTiledG
     add(OpacityEffect.fadeIn(EffectController(duration: 1)));
     //TODO : fade out marche pas car hideToolTip fait un parent?.remove(_myComponent);
     add(OpacityEffect.fadeOut(EffectController(duration: 1)));
+  }
+
+  @override
+  void onTapCancel(TapCancelEvent event) {
+    game.onActionButtonPressed();
   }
 }

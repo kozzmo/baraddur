@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class ParchmentCard extends StatefulWidget {
   final VoidCallback onClose;
   final Widget contentWidget;
-  const ParchmentCard({super.key, required this.contentWidget, required this.onClose});
+  final Alignment alignment;
+  const ParchmentCard({super.key, required this.contentWidget, required this.onClose, required this.alignment});
 
   @override
   State<ParchmentCard> createState() => _ParchmentCardState();
@@ -33,51 +34,55 @@ class _ParchmentCardState extends State<ParchmentCard> with SingleTickerProvider
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _controller,
-      child: Stack(
-        children: [
-          Container(
-            margin: const EdgeInsets.all(32),
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: AssetImage('assets/images/parchment_texture.jpg'),
-                fit: BoxFit.fill,
-              ),
-              border: Border.all(color: Colors.brown, width: 3),
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.brown.shade300,
-                  offset: const Offset(4, 4),
-                  blurRadius: 10,
+      child: Align(
+        alignment: widget.alignment,
+        child: Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(32),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                  image: AssetImage('assets/images/parchment_texture.jpg'),
+                  fit: BoxFit.fill,
                 ),
-              ],
-            ),
-            child: SingleChildScrollView(
-              child: widget.contentWidget,
-            ),
-          ),
-          Positioned(
-            right: 40,
-            top: 40,
-            child: GestureDetector(
-              onTap: widget.onClose,
+                border: Border.all(color: Colors.brown, width: 3),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.brown.shade300,
+                    offset: const Offset(4, 4),
+                    blurRadius: 10,
+                  ),
+                ],
+              ),
               child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.transparent,
-                  border: Border.all(color: Colors.brown, width: 2),
-                ),
-                padding: const EdgeInsets.all(4),
-                child: const Icon(
-                  Icons.close,
-                  size: 24,
-                  color: Colors.brown,
+                padding: const EdgeInsets.all(24),
+                child: widget.contentWidget,
+              ),
+            ),
+            Positioned(
+              right: 40,
+              top: 40,
+              child: GestureDetector(
+                onTap: widget.onClose,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.transparent,
+                    border: Border.all(color: Colors.brown, width: 2),
+                  ),
+                  padding: const EdgeInsets.all(4),
+                  child: const Icon(
+                    Icons.close,
+                    size: 24,
+                    color: Colors.brown,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

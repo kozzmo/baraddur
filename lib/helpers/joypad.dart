@@ -23,7 +23,10 @@ class JoypadState extends State<Joypad> {
       width: 120,
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(60),
+          image: DecorationImage(
+            image: AssetImage("assets/images/logoBaraddur.png"),
+            fit: BoxFit.fill,
+          ),
         ),
         child: GestureDetector(
           onPanDown: onDragDown,
@@ -96,10 +99,7 @@ class JoypadState extends State<Joypad> {
   void calculateDelta(Offset offset) {
     final newDelta = offset - const Offset(60, 60);
     updateDelta(
-      Offset.fromDirection(
-        newDelta.direction,
-        min(30, newDelta.distance),
-      ),
+      Offset.fromDirection(newDelta.direction, min(30, newDelta.distance)),
     );
   }
 }

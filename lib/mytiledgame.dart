@@ -1,11 +1,8 @@
-import 'dart:developer';
 import 'dart:math' as math;
-
-import 'package:baraddur/components/menuareacomponent.dart';
-import 'package:baraddur/components/questareacomponent.dart';
 import 'package:baraddur/helpers/utils.dart';
 import 'package:baraddur/myworld.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/services.dart';
@@ -20,21 +17,22 @@ class MyTiledGame extends FlameGame
   late final MyPlayer _myPlayer;
   late final MyWorld _myWorld;
 
-  MyTiledGame() : _myPlayer = MyPlayer(position: Vector2(40, 40));
+  MyTiledGame() : _myPlayer = MyPlayer();
 
   late final TiledComponent mapComponent;
 
   Vector2? tooltipPosition;
   String? tooltipText;
+  Alignment? align;
 
-  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut', String overlayName = 'tooltip'}) {
+  void showTooltipAt(Vector2 position, {String text = 'Tooltip par défaut', String overlayName = 'tooltip', Alignment alignment = Alignment.topCenter}) {
+    align = alignment;
     tooltipPosition = position;
     tooltipText = text;
     overlays.add(overlayName);
   }
 
   void hideTooltip([String overlayName = 'tooltip']) {
-    // overlays.remove(overlayName);
     overlays.clear();
   }
 
@@ -46,19 +44,16 @@ class MyTiledGame extends FlameGame
   @override
   Future<void> onLoad() async {
     super.onLoad();
-
     _myWorld = MyWorld(_myPlayer);
     camera = CameraComponent(world: _myWorld);
-
     await addAll([_myWorld, camera]);
-
     camera.viewfinder
       ..zoom = myZoom
       ..anchor = Anchor.center;
-
     camera.follow(_myPlayer);
-
     _setCameraBounds();
+    _myPlayer.setDefaultSpawn();
+    showTooltipAt(Vector2(0, 0),text: 'Bienvenue Padawan', alignment: Alignment.center);
   }
 
   @override
@@ -82,7 +77,7 @@ class MyTiledGame extends FlameGame
 
     if (isKeyDown && keyDirection != null) {
       _myPlayer.direction = keyDirection;
-      _myPlayer.gameRef.onJoyPadDirectionChanged(keyDirection);
+      _myPlayer.game.onJoyPadDirectionChanged(keyDirection);
     } else if (isKeyUp) {
       _myPlayer.direction = Direction.none;
     }
@@ -123,28 +118,13 @@ class MyTiledGame extends FlameGame
     return noQuestMessages[math.Random().nextInt(noQuestMessages.length)];
   }
 
-  void onActionButtonPressed() async {
-    log(
-      'BUTTON PRESSED - direction = ${_myPlayer.getDirectionName()} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()} et pov = ${_myPlayer.getPov().x.toString()} / ${_myPlayer.getPov().y.toString()}',
-    );
-    if (_myPlayer.isColliding) {
-      log('My Player is colliding !');
-      if (_myPlayer.isCollidingWith<QuestAreaComponent>()) {
-        final collidingComp = _myPlayer.getCollidingWith<QuestAreaComponent>();
-        log('Colliding Quest : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
-        showTooltipAt(_myPlayer.getPov(), text: collidingComp.text);
-      }
-
-      if (_myPlayer.isCollidingWith<MenuAreaComponent>()) {
-        final collidingComp = _myPlayer.getCollidingWith<MenuAreaComponent>();
-        log('Colliding Menu : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
-        showTooltipAt(_myPlayer.getPov(), overlayName: 'menu');
-      }
-    } else {
-      showTooltipAt(
-        _myPlayer.getPov(),
-        text: getRandomNoQuestMessage(),
-      );
-    }
+  void MenuBtnPressed() {
+    showTooltipAt(Vector2(0,0), overlayName: 'game_menu');
   }
+
+  void onActionButtonPressed() {
+    _myPlayer.action();
+  }
+
+
 }
