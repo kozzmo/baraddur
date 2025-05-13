@@ -53,13 +53,39 @@ class MyPlayer extends SpriteAnimationComponent
     _previousDirection = Direction.down;
     debugMode = myDebug;
   }
+  
+  void action() {
+    log(
+      'ACTION PRESSED - direction = ${getDirectionName()} et position = ${position.x.toString()} / ${position.y.toString()} et pov = ${getPov().x.toString()} / ${getPov().y.toString()}',
+    );
+    if (isColliding) {
+      log('My Player is colliding !');
+      if (isCollidingWith<QuestAreaComponent>()) {
+        final collidingComp = getCollidingWith<QuestAreaComponent>();
+        log('Colliding Quest : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
+        game.showTooltipAt(getPov(), text: collidingComp.text);
+      }
+
+      if (isCollidingWith<MenuAreaComponent>()) {
+        final collidingComp = getCollidingWith<MenuAreaComponent>();
+        log('Colliding Menu : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
+        game.showTooltipAt(getPov(), overlayName: 'menu');
+      }
+    } else {
+      game.hideTooltip();
+      game.showTooltipAt(
+        getPov(),
+        text: game.getRandomNoQuestMessage(),
+      );
+    }
+  }
 
   void setDefaultSpawn() {
-    this.position = Vector2(198, 228);
+    position = Vector2(198, 228);
   }
 
   void setSpawn(i, j) {
-    this.position = Vector2(i, j);
+    position = Vector2(i, j);
   }
 
   @override
