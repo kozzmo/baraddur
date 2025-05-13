@@ -56,7 +56,7 @@ class _ParchmentCardState extends State<ParchmentCard> with SingleTickerProvider
                   ),
                 ],
               ),
-              child: SingleChildScrollView(
+              child: Container(
                 padding: const EdgeInsets.all(24),
                 child: widget.contentWidget,
               ),
