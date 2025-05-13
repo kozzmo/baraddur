@@ -31,13 +31,24 @@ class BaraddurOverlays {
     },
     'game_menu': (BuildContext context, MyTiledGame game) {
       return ParchmentCard(
-        contentWidget: Text(
-          'Should have a menu here -> be able to check every useful actions? '
-              '\n- menu (IRL)'
-              '\n- opening hours'
-              '\n- Book a table'
-              '\n- change sp_player to sp_player_female?'
-              '\n- ...',
+        contentWidget: ListView(
+          children: [
+            Center(
+              child: Text(
+                'Should have a menu here -> be able to check every useful actions?',
+              ),
+            ),
+            GestureDetector(
+              child: Center(child: Text('Menu (IRL)')),
+              onTap:
+                  () => game.showTooltipAt(Vector2(0, 0), overlayName: 'menu'),
+            ),
+            Center(child: Text('Opening hours')),
+            Center(child: Text('Book a table')),
+            Center(child: Text('Change sp_player to sp_player_female')),
+            Center(child: Text('Events')),
+            Center(child: Text('...')),
+          ],
         ),
         onClose: game.hideTooltip,
         alignment: Alignment.center,
