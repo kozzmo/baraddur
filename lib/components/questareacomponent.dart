@@ -11,7 +11,6 @@ class QuestAreaComponent extends PositionComponent with CollisionCallbacks, HasG
   late RectangleHitbox _hitbox ;
   late InterrogationDotComponent _myInterrogationDot;
   late final RectangleHitbox _detectionZone;
-
   QuestAreaComponent({super.position, super.size, required this.text});
 
   @override
