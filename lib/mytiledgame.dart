@@ -1,7 +1,4 @@
-import 'dart:developer';
 import 'dart:math' as math;
-import 'package:baraddur/components/menuareacomponent.dart';
-import 'package:baraddur/components/questareacomponent.dart';
 import 'package:baraddur/helpers/utils.dart';
 import 'package:baraddur/myworld.dart';
 import 'package:flame/components.dart';
@@ -36,7 +33,6 @@ class MyTiledGame extends FlameGame
   }
 
   void hideTooltip([String overlayName = 'tooltip']) {
-    // overlays.remove(overlayName);
     overlays.clear();
   }
 
@@ -123,33 +119,11 @@ class MyTiledGame extends FlameGame
   }
 
   void MenuBtnPressed() {
-    showTooltipAt(Vector2(0,0),overlayName: 'game_menu');
+    showTooltipAt(Vector2(0,0), overlayName: 'game_menu');
   }
 
   void onActionButtonPressed() {
-    log(
-      'BUTTON PRESSED - direction = ${_myPlayer.getDirectionName()} et position = ${_myPlayer.position.x.toString()} / ${_myPlayer.position.y.toString()} et pov = ${_myPlayer.getPov().x.toString()} / ${_myPlayer.getPov().y.toString()}',
-    );
-    if (_myPlayer.isColliding) {
-      log('My Player is colliding !');
-      if (_myPlayer.isCollidingWith<QuestAreaComponent>()) {
-        final collidingComp = _myPlayer.getCollidingWith<QuestAreaComponent>();
-        log('Colliding Quest : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
-        showTooltipAt(_myPlayer.getPov(), text: collidingComp.text);
-      }
-
-      if (_myPlayer.isCollidingWith<MenuAreaComponent>()) {
-        final collidingComp = _myPlayer.getCollidingWith<MenuAreaComponent>();
-        log('Colliding Menu : ${collidingComp!.height.toString()} * ${collidingComp.width.toString()}');
-        showTooltipAt(_myPlayer.getPov(), overlayName: 'menu');
-      }
-    } else {
-      hideTooltip();
-      showTooltipAt(
-        _myPlayer.getPov(),
-        text: getRandomNoQuestMessage(),
-      );
-    }
+    _myPlayer.action();
   }
 
 
